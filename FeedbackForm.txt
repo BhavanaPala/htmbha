@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Feedback Form</title>
+  </head>
+  <body>
+    <h4>Feedback form</h4>
+    <form name="feedbackForm" id="feedbackForm" method="POST">
+      <div>
+        <label for="username">Name* </label>
+        <select name="surname" id="surname">
+          <option value="Mr">Mr</option>
+          <option value="Mrs">Mrs</option>
+          <option value="Ms">Ms</option>
+        </select>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          minlength="6"
+          required
+        />
+      </div>
+      <div>
+        <label for="address1">Address 1* </label>
+        <input type="text" name="address1" id="address1" required />
+      </div>
+      <div>
+        <label for="address2">Address 2* </label>
+        <input type="text" name="address2" id="address2" required />
+      </div>
+      <div>
+        <label for="state">State* </label>
+        <select name="state" id="state" required>
+          <option value="">-Select-</option>
+          <option value="Andaman & Nicobar">Andaman & Nicobar</option>
+          <option value="Andhra Pradesh">Andhra Pradesh</option>
+          <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+        </select>
+        <label for="city">City* </label>
+        <select name="city" id="city" required>
+          <option value="">-Select-</option>
+          <option value="Visakhapatnam">Visakhapatnam</option>
+          <option value="Amaravathi">Amaravathi</option>
+          <option value="Kurnool">Kurnool</option>
+        </select>
+      </div>
+      <div>
+        <label for="pincode">Pin code* </label>
+        <input
+          type="text"
+          name="pincode"
+          id="pincode"
+          pattern="[0-9]{3}\s[0-9]{3}"
+          placeholder="xxx xxx"
+          required
+        />
+      </div>
+      <div>
+        <label for="mobile">Mobile Number* </label>
+        <input
+          type="text"
+          name="mobile"
+          id="mobile"
+          pattern="[0-9]{10}"
+          required
+        />
+      </div>
+      <div>
+        <label for="email">Email ID* </label>
+        <input type="email" name="email" id="email" required />
+      </div>
+      <div>
+        <label for="model">Select Car Model* </label>
+        <select name="model" id="model" required>
+          <option value="Maruti Zen Estilo">Maruti Zen Estilo</option>
+          <option value="Ford Figo">Ford Figo</option>
+          <option value="Honda City">Honda City</option>
+        </select>
+      </div>
+      <div>
+        <input type="checkbox" name="service" id="service1" /><label
+          for="service1"
+        >
+          Paint</label
+        >
+        <input type="checkbox" name="service" id="service2" /><label
+          for="service2"
+          >EngineRepair</label
+        >
+        <input type="checkbox" name="service" id="service3" /><label
+          for="service3"
+          >BodyRepair</label
+        >
+        <input type="checkbox" name="service" id="service4" /><label
+          for="service4"
+          >FreeService</label
+        >
+        <input type="checkbox" name="service" id="service5" /><label
+          for="service5"
+          >PaidService</label
+        >&nbsp;
+        <span id="error" style="display: none;">Select Type of Service</span>
+      </div>
+      <div>
+        <label for="kms">Total Kilometers Covered* </label>
+        <input type="number" name="kms" id="kms" required />
+      </div>
+      <div>
+        <label for="feedback">Your Feedback* </label>
+        <input
+          type="number"
+          name="feedback"
+          id="feedback"
+          min="1"
+          max="10"
+          required
+        />
+        <span id="feedText" style="display: none;"></span>
+        <button type="submit">Submit</button>
+        <button type="reset" (onclick)="onReset()">Cancel</button>
+      </div>
+      <p id="message"></p>
+    </form>
+    <script>
+      const form = document.feedbackForm;
+      const errorText = document.getElementById("error");
+      const feedText = document.getElementById("feedText");
+      const message = document.getElementById("message");
+      function onSubmit(ev) {
+        ev.preventDefault();
+        onReset();
+        let isServiceSelected = false;
+        form.service.forEach(service => {
+          if (service.checked) isServiceSelected = true;
+        });
+        if (!isServiceSelected) {
+          errorText.style.display = "inline";
+          return;
+        }
+        const feedback = form.feedback.value;
+        let feedbackValue = "";
+        if (feedback >= 1 && feedback < 5) feedbackValue = "Poor";
+        if (feedback >= 5 && feedback <= 7) feedbackValue = "Average";
+        if (feedback >= 8 && feedback <= 9) feedbackValue = "Good";
+        if (feedback === 10) feedbackValue = "Excellent";
+        feedText.style.display = "inline";
+        feedText.textContent = feedbackValue;
+        message.style.display = "block";
+        message.textContent =
+          "Thanks for your feedback " +
+          form.surname.value +
+          "." +
+          form.username.value;
+        // form.reset();
+      }
+      function onReset() {
+        errorText.style.display = "none";
+        feedText.style.display = "none";
+        message.style.display = "none";
+      }
+      form.addEventListener("submit", onSubmit);
+    </script>
+  </body>
+</html>
